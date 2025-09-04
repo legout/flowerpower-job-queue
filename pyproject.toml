@@ -11,6 +11,7 @@ dependencies = [
     "flowerpower>=0.20.0",
     "msgspec>=0.19.0",
     "typing-extensions>=4.5.0",
+    "click>=8.0.0",
 ]
 
 [project.optional-dependencies]
@@ -56,6 +57,11 @@ taskiq-postgres = [
     "taskiq>=0.11.0",
     "taskiq-psqlpy>=0.1.0",
     "asyncpg>=0.29.0",
+]
+
+# Optional CLI dependencies
+cli = [
+    "pyyaml>=6.0.0",
 ]
 
 # All backends
@@ -108,7 +114,7 @@ Documentation = "https://github.com/yourusername/flowerpower-job-queue#readme"
 "Bug Tracker" = "https://github.com/yourusername/flowerpower-job-queue/issues"
 
 [project.scripts]
-flowerpower-scheduler = "flowerpower_job_queue.cli.commands:main"
+flowerpower-queue = "flowerpower_job_queue.cli.main:queue"
 
 [tool.black]
 line-length = 88
