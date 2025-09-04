@@ -1,0 +1,136 @@
+[project]
+name = "flowerpower-job-queue"
+version = "0.1.0"
+description = "A specialized job scheduling and queue management library exclusively designed for FlowerPower pipeline runs"
+readme = "README.md"
+authors = [
+    { name = "legout", email = "ligno.blades@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "flowerpower>=0.20.0",
+    "msgspec>=0.19.0",
+    "typing-extensions>=4.5.0",
+]
+
+[project.optional-dependencies]
+# Core backends
+rq = [
+    "rq>=2.0.0",
+    "redis>=5.0.0",
+]
+saq = [
+    "saq>=0.12.0",
+    "redis>=5.0.0",
+    "aiofiles>=23.0.0",
+]
+arq = [
+    "arq>=0.25.0",
+    "redis>=5.0.0",
+]
+huey = [
+    "huey>=2.4.0",
+]
+dramatiq = [
+    "dramatiq>=1.15.0",
+]
+taskiq = [
+    "taskiq>=0.11.0",
+]
+
+# TaskIQ broker-specific dependencies
+taskiq-redis = [
+    "taskiq>=0.11.0",
+    "taskiq-redis>=1.0.0",
+    "redis>=5.0.0",
+]
+taskiq-nats = [
+    "taskiq>=0.11.0",
+    "taskiq-nats>=0.5.0",
+]
+taskiq-kafka = [
+    "taskiq>=0.11.0",
+    "taskiq-aio-kafka>=0.2.0",
+]
+taskiq-postgres = [
+    "taskiq>=0.11.0",
+    "taskiq-psqlpy>=0.1.0",
+    "asyncpg>=0.29.0",
+]
+
+# All backends
+all-backends = [
+    "flowerpower-job-queue[rq,saq,arq,huey,dramatiq,taskiq]",
+    "flowerpower-job-queue[taskiq-redis,taskiq-nats,taskiq-kafka,taskiq-postgres]",
+]
+
+# Documentation dependencies
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings>=0.24.0",
+    "mkdocstrings-python>=1.8.0",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.0",
+    "mkdocs-section-index>=0.3.0",
+    "mkdocs-include-markdown-plugin>=6.0.0",
+]
+
+# Testing dependencies
+test = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "pytest-mock>=3.12.0",
+    "fakeredis>=2.19.0",
+    "aioresponses>=0.7.0",
+    "freezegun>=1.2.0",
+]
+
+# Development dependencies
+dev = [
+    "flowerpower-job-queue[docs,test]",
+    "black>=24.0.0",
+    "isort>=5.13.0",
+    "mypy>=1.9.0",
+    "ruff>=0.3.0",
+    "pre-commit>=3.7.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.13,<0.9.0"]
+build-backend = "uv_build"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/flowerpower-job-queue"
+Repository = "https://github.com/yourusername/flowerpower-job-queue"
+Documentation = "https://github.com/yourusername/flowerpower-job-queue#readme"
+"Bug Tracker" = "https://github.com/yourusername/flowerpower-job-queue/issues"
+
+[project.scripts]
+flowerpower-scheduler = "flowerpower_job_queue.cli.commands:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py313']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = "--cov=src/flowerpower_job_queue --cov-report=term-missing --cov-report=html"
+
+[dependency-groups]
+dev = [
+    "repomix>=0.3.4",
+]
