@@ -3,72 +3,12 @@ name = "flowerpower-job-queue"
 version = "0.1.0"
 description = "A specialized job scheduling and queue management library exclusively designed for FlowerPower pipeline runs"
 readme = "README.md"
-authors = [
-    { name = "legout", email = "ligno.blades@gmail.com" }
-]
+authors = [{ name = "legout", email = "ligno.blades@gmail.com" }]
 requires-python = ">=3.13"
-dependencies = [
-    "flowerpower>=0.20.0",
-    "msgspec>=0.19.0",
-    "typing-extensions>=4.5.0",
-    "click>=8.0.0",
-]
+dependencies = ["flowerpower>=0.20.0", "msgspec>=0.19.0"]
 
 [project.optional-dependencies]
-# Core backends
-rq = [
-    "rq>=2.0.0",
-    "redis>=5.0.0",
-]
-saq = [
-    "saq>=0.12.0",
-    "redis>=5.0.0",
-    "aiofiles>=23.0.0",
-]
-arq = [
-    "arq>=0.25.0",
-    "redis>=5.0.0",
-]
-huey = [
-    "huey>=2.4.0",
-]
-dramatiq = [
-    "dramatiq>=1.15.0",
-]
-taskiq = [
-    "taskiq>=0.11.0",
-]
 
-# TaskIQ broker-specific dependencies
-taskiq-redis = [
-    "taskiq>=0.11.0",
-    "taskiq-redis>=1.0.0",
-    "redis>=5.0.0",
-]
-taskiq-nats = [
-    "taskiq>=0.11.0",
-    "taskiq-nats>=0.5.0",
-]
-taskiq-kafka = [
-    "taskiq>=0.11.0",
-    "taskiq-aio-kafka>=0.2.0",
-]
-taskiq-postgres = [
-    "taskiq>=0.11.0",
-    "taskiq-psqlpy>=0.1.0",
-    "asyncpg>=0.29.0",
-]
-
-# Optional CLI dependencies
-cli = [
-    "pyyaml>=6.0.0",
-]
-
-# All backends
-all-backends = [
-    "flowerpower-job-queue[rq,saq,arq,huey,dramatiq,taskiq]",
-    "flowerpower-job-queue[taskiq-redis,taskiq-nats,taskiq-kafka,taskiq-postgres]",
-]
 
 # Documentation dependencies
 docs = [
@@ -94,14 +34,7 @@ test = [
 ]
 
 # Development dependencies
-dev = [
-    "flowerpower-job-queue[docs,test]",
-    "black>=24.0.0",
-    "isort>=5.13.0",
-    "mypy>=1.9.0",
-    "ruff>=0.3.0",
-    "pre-commit>=3.7.0",
-]
+dev = ["ruff>=0.3.0", "isort>=5.13.0", "mypy>=1.9.0", "pre-commit>=3.7.0"]
 
 [build-system]
 requires = ["uv_build>=0.8.13,<0.9.0"]
@@ -116,9 +49,24 @@ Documentation = "https://github.com/yourusername/flowerpower-job-queue#readme"
 [project.scripts]
 flowerpower-queue = "flowerpower_job_queue.cli.main:queue"
 
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ['py313']
+target-version = "py313"
+
+[tool.ruff.lint]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F"]
+ignore = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
 
 [tool.isort]
 profile = "black"
@@ -135,8 +83,3 @@ disallow_untyped_defs = true
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 addopts = "--cov=src/flowerpower_job_queue --cov-report=term-missing --cov-report=html"
-
-[dependency-groups]
-dev = [
-    "repomix>=0.3.4",
-]
